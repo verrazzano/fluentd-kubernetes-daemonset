@@ -48,7 +48,7 @@ pipeline {
             steps {
                 sh """
                     cd ${GO_REPO_PATH}/fluentd-kubernetes-daemonset
-		    docker image build --build-arg FLUENTD_IMG="${env.DOCKER_REPO}/${env.DOCKER_NAMESPACE}/bfs/${FLUENTD_IMAGE_NAME}" -f docker-image/v1.10/oraclelinux-elasticsearch7/Dockerfile -t ${env.DOCKER_REPO}/${env.DOCKER_NAMESPACE}/${DOCKER_IMAGE_NAME} .
+		    docker image build --build-arg FLUENTD_IMG="${env.DOCKER_REPO}/bfs/${FLUENTD_IMAGE_NAME}" -f docker-image/v1.10/oraclelinux-elasticsearch7/Dockerfile -t ${env.DOCKER_REPO}/${env.DOCKER_NAMESPACE}/${DOCKER_IMAGE_NAME} .
                     docker image push ${env.DOCKER_REPO}/${env.DOCKER_NAMESPACE}/${DOCKER_IMAGE_NAME}
                 """
             }
