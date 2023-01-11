@@ -47,6 +47,7 @@ COPY LICENSE README.md /license/
 ENV FLUENTD_OPT=""
 ENV FLUENTD_CONF="fluent.conf"
 RUN chmod -R 666 /var/log/
+RUN chmod -R 777 /root/.rbenv/shims/ruby
 RUN chown -R fluent:fluent /var/log/
 RUN chmod -R 666 /var/lib
 RUN chown -R fluent:fluent /var/lib
