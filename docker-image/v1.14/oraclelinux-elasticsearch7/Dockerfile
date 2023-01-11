@@ -2,7 +2,7 @@ ARG FLUENTD_IMG
 FROM $FLUENTD_IMG
 
 LABEL maintainer="Verrazzano developers <verrazzano_ww@oracle.com>"
-USER root
+USER fluent
 WORKDIR /home/fluent
 ENV PATH /fluentd/vendor/bundle/ruby/2.7.5/bin:$PATH
 ENV GEM_PATH /fluentd/vendor/bundle/ruby/2.7.5
