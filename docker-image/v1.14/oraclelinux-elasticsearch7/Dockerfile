@@ -13,10 +13,9 @@ ENV FLUENTD_DISABLE_BUNDLER_INJECTION 1
 COPY docker-image/v1.14/oraclelinux-elasticsearch7/Gemfile /fluentd/
 COPY docker-image/v1.14/oraclelinux-elasticsearch7/Gemfile.lock /fluentd/
 COPY docker-image/v1.14/oraclelinux-elasticsearch7/fluent-plugin-oci-logging-1.0.2.gem /tmp/
-RUN buildDeps="sudo make gcc g++ libc-dev libffi-dev" \
+RUN buildDeps="sudo make gcc" \
   runtimeDeps="" \
     && yum -y update \
-    && yum-config-manager --save --setopt=ol7_ociyum_config.skip_if_unavailable=true \
     && yum install -y \
     $buildDeps $runtimeDeps net-tools \
     && yum clean all \
