@@ -22,7 +22,7 @@ GEM
     elasticsearch-api (7.17.1)
       multi_json
     elasticsearch-transport (7.17.1)
-      faraday (~> 1)
+      faraday (~> 2.0.0)
       multi_json
     elasticsearch-xpack (7.17.1)
       elasticsearch-api (>= 6)
