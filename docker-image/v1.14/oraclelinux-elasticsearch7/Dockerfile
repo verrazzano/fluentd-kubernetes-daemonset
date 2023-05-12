@@ -19,7 +19,7 @@ RUN buildDeps="sudo make gcc" \
     && yum install -y \
     $buildDeps $runtimeDeps net-tools \
     && yum clean all \
-    && gem install bundler --version 2.2.24 \
+    && gem install bundler --version 2.4.13 \
     && gem install /tmp/fluent-plugin-oci-logging-1.0.2.gem \
     && bundle config silence_root_warning true \
     && bundle config set --local path '/fluentd/vendor/bundle' \
