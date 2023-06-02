@@ -4,9 +4,9 @@ FROM $FLUENTD_IMG
 LABEL maintainer="Verrazzano developers <verrazzano_ww@oracle.com>"
 USER root
 WORKDIR /home/fluent
-ENV PATH /fluentd/vendor/bundle/ruby/2.7.5/bin:$PATH
-ENV GEM_PATH /fluentd/vendor/bundle/ruby/2.7.5
-ENV GEM_HOME /fluentd/vendor/bundle/ruby/2.7.5
+ENV PATH /fluentd/vendor/bundle/ruby/3.0.6/bin:$PATH
+ENV GEM_PATH /fluentd/vendor/bundle/ruby/3.0.6
+ENV GEM_HOME /fluentd/vendor/bundle/ruby/3.0.6
 # skip runtime bundler installation
 ENV FLUENTD_DISABLE_BUNDLER_INJECTION 1
 
