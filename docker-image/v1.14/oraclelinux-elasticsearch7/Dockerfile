@@ -15,10 +15,10 @@ COPY docker-image/v1.14/oraclelinux-elasticsearch7/Gemfile.lock /fluentd/
 COPY docker-image/v1.14/oraclelinux-elasticsearch7/fluent-plugin-oci-logging-1.0.2.gem /tmp/
 RUN buildDeps="sudo make gcc" \
   runtimeDeps="" \
-    && yum -y update \
-    && yum install -y \
+    && microdnf -y update \
+    && microdnf install -y \
     $buildDeps $runtimeDeps net-tools \
-    && yum clean all \
+    && mircodnf clean all \
     && gem install bundler --version 2.2.24 \
     && gem install rexml -v 3.2.5 \
     && gem install /tmp/fluent-plugin-oci-logging-1.0.2.gem \
