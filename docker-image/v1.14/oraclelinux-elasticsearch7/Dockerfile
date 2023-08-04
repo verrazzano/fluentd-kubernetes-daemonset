@@ -18,7 +18,7 @@ RUN buildDeps="sudo make gcc" \
     && microdnf -y update \
     && microdnf install -y \
     $buildDeps $runtimeDeps net-tools \
-    && mircodnf clean all \
+    && microdnf clean all \
     && gem install bundler --version 2.2.24 \
     && gem install rexml -v 3.2.5 \
     && gem install /tmp/fluent-plugin-oci-logging-1.0.2.gem \
