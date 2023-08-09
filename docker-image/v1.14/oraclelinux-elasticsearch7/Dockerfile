@@ -17,8 +17,10 @@ COPY docker-image/v1.14/oraclelinux-elasticsearch7/fluent-plugin-oci-logging-1.0
 #RUN buildDeps="make gcc-c++" \
 #  runtimeDeps="" \
 RUN microdnf -y update \
-    &&  microdnf -y install --nodocs \
-        yum-utils \
+    && microdnf -y install --nodocs yum-utils \
+    && dnf config-manager --set-enabled ol8_codeready_builder \
+    && dnf install -y --nodocs \
+        libyaml-devel \
         wget \
         git-core \
         zlib \
@@ -37,13 +39,10 @@ RUN microdnf -y update \
         bison \
         sqlite-devel \
         net-tools \
-#    $buildDeps $runtimeDeps net-tools \
-    && dnf config-manager --set-enabled ol8_codeready_builder && dnf install -y --nodocs libyaml-devel \
     && wget -O /tmp/v20230717.tar.gz "https://github.com/rbenv/ruby-build/archive/refs/tags/v20230717.tar.gz" \
     && cd /tmp && tar -xzf v20230717.tar.gz \
     && PREFIX=/usr/local /tmp/ruby-build-20230717/install.sh \
     && ruby-build 3.0.6 /usr/local/ruby \
-#    echo 'gem: --no-document' >> /etc/gemrc \
     && gem install oj -N -v 3.10.18 \
     && gem install cgi -N -v 0.3.1 --default \
     && gem install json -N -v 2.4.1 \
@@ -52,6 +51,13 @@ RUN microdnf -y update \
     && gem install zlib -N -v 2.1.1 \
     && gem install bigdecimal -N -v 1.4.4 \
     && dpkgArch="amd64" \
+    && gem install bundler -N --version 2.2.24 \
+    && gem install rexml -N -v 3.2.5 \
+    && gem install /tmp/fluent-plugin-oci-logging-1.0.2.gem -N \
+    && bundle config silence_root_warning true \
+    && bundle config set --local path '/fluentd/vendor/bundle' \
+    && bundle install --gemfile=/fluentd/Gemfile \
+    && gem sources --clear-all \
     && wget -O /usr/local/bin/tini "https://github.com/krallin/tini/releases/download/v$TINI_VERSION/tini-$dpkgArch" \
     && wget -O /usr/local/bin/tini.asc "https://github.com/krallin/tini/releases/download/v$TINI_VERSION/tini-$dpkgArch.asc" \
     && export GNUPGHOME="$(mktemp -d)" \
@@ -59,19 +65,14 @@ RUN microdnf -y update \
     && gpg --batch --verify /usr/local/bin/tini.asc /usr/local/bin/tini \
     && rm -r /usr/local/bin/tini.asc \
     && chmod +x /usr/local/bin/tini \
-    && gem install bundler -N --version 2.2.24 \
-    && gem install rexml -N -v 3.2.5 \
-    && gem install /tmp/fluent-plugin-oci-logging-1.0.2.gem -N \
-    && bundle config silence_root_warning true \
-    && bundle config set --local path '/fluentd/vendor/bundle' \
-    && bundle install --gemfile=/fluentd/Gemfile \
-#    && SUDO_FORCE_REMOVE=yes \
-    && gem sources --clear-all \
     && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem \
     && rm -rf /fluentd/vendor/bundle/ruby/3.0.6/cache/* /fluentd/vendor/bundle/ruby/3.0.6/doc/* \
-    && microdnf -y remove \
+    && dnf -y autoremove \
         yum-utils \
         wget \
+	git-core \
+ #       zlib \
+ #       zlib-devel \
         gcc-c++ \
         bzip2 \
         libtool \
@@ -88,9 +89,7 @@ RUN microdnf -y update \
         gcc \
         cpp \
         net-tools \
-    && package-cleanup --leaves | xargs -l1 microdnf -y remove
-    && microdnf clean all \
-    && dnf remove -y libyaml-devel \
+        libyaml-devel \
     && dnf clean all \
     && rm -rf /var/cache/yum /var/lib/rpm/* /var/cache/dnf /var/lib/dnf/* \
     && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem \
@@ -122,12 +121,9 @@ COPY LICENSE README.md SECURITY.md /license/
 
 # Environment variables
 ENV FLUENTD_CONF="fluent.conf"
-# ENV LD_PRELOAD="/usr/lib/libjemalloc.so.2"
 ENV FLUENTD_OPT=""
-ENV FLUENTD_CONF="fluent.conf"
 
 EXPOSE 24224 5140
-#USER fluent
 
 # ENTRYPOINT to run fluentd as root for /var/log / /var/lib
 ENTRYPOINT ["tini", "--", "/fluentd/entrypoint.sh"]
