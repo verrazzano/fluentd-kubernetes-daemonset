@@ -18,13 +18,10 @@ COPY docker-image/v1.14/oraclelinux-elasticsearch7/fluent-plugin-oci-logging-1.0
 #  runtimeDeps="" \
 RUN microdnf -y update \
     && microdnf -y install --nodocs yum-utils \
-    && dnf config-manager --set-enabled ol8_codeready_builder \
+    && dnf config-manager --set-enabled ol8_codeready_builder && dnf install -y --nodocs libyaml-devel \
     && dnf install -y --nodocs \
-        libyaml-devel \
         wget \
         git-core \
-        zlib \
-        zlib-devel \
         gcc-c++ \
         patch \
         readline \
@@ -37,27 +34,24 @@ RUN microdnf -y update \
         automake \
         libtool \
         bison \
-        sqlite-devel \
         net-tools \
     && wget -O /tmp/v20230717.tar.gz "https://github.com/rbenv/ruby-build/archive/refs/tags/v20230717.tar.gz" \
     && cd /tmp && tar -xzf v20230717.tar.gz \
     && PREFIX=/usr/local /tmp/ruby-build-20230717/install.sh \
     && ruby-build 3.0.6 /usr/local/ruby \
     && gem install oj -N -v 3.10.18 \
-    && gem install cgi -N -v 0.3.1 --default \
     && gem install json -N -v 2.4.1 \
     && gem install async-http -N -v 0.54.0 \
     && gem install fluentd -N -v 1.14.5 \
-    && gem install zlib -N -v 2.1.1 \
     && gem install bigdecimal -N -v 1.4.4 \
-    && dpkgArch="amd64" \
-    && gem install bundler -N --version 2.2.24 \
+    && gem install bundler -N --version 2.3.5 \
     && gem install rexml -N -v 3.2.5 \
     && gem install /tmp/fluent-plugin-oci-logging-1.0.2.gem -N \
     && bundle config silence_root_warning true \
     && bundle config set --local path '/fluentd/vendor/bundle' \
     && bundle install --gemfile=/fluentd/Gemfile \
     && gem sources --clear-all \
+    && dpkgArch="amd64" \
     && wget -O /usr/local/bin/tini "https://github.com/krallin/tini/releases/download/v$TINI_VERSION/tini-$dpkgArch" \
     && wget -O /usr/local/bin/tini.asc "https://github.com/krallin/tini/releases/download/v$TINI_VERSION/tini-$dpkgArch.asc" \
     && export GNUPGHOME="$(mktemp -d)" \
@@ -68,11 +62,8 @@ RUN microdnf -y update \
     && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem \
     && rm -rf /fluentd/vendor/bundle/ruby/3.0.6/cache/* /fluentd/vendor/bundle/ruby/3.0.6/doc/* \
     && dnf -y autoremove \
-        yum-utils \
         wget \
 	git-core \
- #       zlib \
- #       zlib-devel \
         gcc-c++ \
         bzip2 \
         libtool \
@@ -84,12 +75,10 @@ RUN microdnf -y update \
         autoconf \
         automake \
         readline-devel \
-        sqlite-devel \
         patch \
-        gcc \
-        cpp \
         net-tools \
         libyaml-devel \
+        yum-utils \
     && dnf clean all \
     && rm -rf /var/cache/yum /var/lib/rpm/* /var/cache/dnf /var/lib/dnf/* \
     && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem \
@@ -103,7 +92,6 @@ RUN microdnf -y update \
     && mkdir -p /fluentd/etc /fluentd/plugins \
     && chown -R fluent /fluentd && chgrp -R fluent /fluentd \
     && rm -rf /root/cache/*
-
 
 # Copy configuration files
 COPY docker-image/v1.14/oraclelinux-elasticsearch7/conf/fluent.conf /fluentd/etc/
