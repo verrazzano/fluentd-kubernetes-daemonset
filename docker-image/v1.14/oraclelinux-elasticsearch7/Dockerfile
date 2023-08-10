@@ -96,6 +96,7 @@ COPY --from=build-base /license/ /license/
 
 # Environment variables
 ENV RUBY_VERSION=3.0.6
+ENV PATH /usr/local/ruby/bin:/fluentd/vendor/bundle/ruby/$RUBY_VERSION/bin:$PATH
 ENV GEM_PATH /fluentd/vendor/bundle/ruby/$RUBY_VERSION
 ENV GEM_HOME /fluentd/vendor/bundle/ruby/$RUBY_VERSION
 # skip runtime bundler installation
