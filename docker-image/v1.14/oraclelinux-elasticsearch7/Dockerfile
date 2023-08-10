@@ -1,3 +1,6 @@
+#
+# This Dockerfile was combined with the Dockerfile in github.com/verrazzano/fluentd-docker-image/v1.14/oraclelinux/Dockerfile
+#
 FROM ghcr.io/oracle/oraclelinux:8-slim as build-base
 
 LABEL maintainer="Verrazzano developers <verrazzano_ww@oracle.com>"
