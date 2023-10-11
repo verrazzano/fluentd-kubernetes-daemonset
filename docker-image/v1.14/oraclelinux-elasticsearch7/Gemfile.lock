@@ -1,3 +1,17 @@
+GIT
+  remote: https://github.com/adiforluls/fluent-plugin-opensearch.git
+  revision: a25c23215981bf59ac8de9205f2daed74cfcecc0
+  branch: aditya/idx-tmpl
+  specs:
+    fluent-plugin-opensearch (1.1.4)
+      aws-sdk-core (~> 3)
+      excon
+      faraday (>= 2.0.0)
+      faraday-excon (>= 2.0.0)
+      faraday_middleware-aws-sigv4 (~> 1.0.1)
+      fluentd (>= 0.14.22)
+      opensearch-ruby (>= 3.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -66,14 +80,6 @@ GEM
       lru_redux
     fluent-plugin-multi-format-parser (1.0.0)
       fluentd (>= 0.14.0, < 2)
-    fluent-plugin-opensearch (1.1.4)
-      aws-sdk-core (~> 3)
-      excon
-      faraday (>= 2.0.0)
-      faraday-excon (>= 2.0.0)
-      faraday_middleware-aws-sigv4 (~> 1.0.1)
-      fluentd (>= 0.14.22)
-      opensearch-ruby
     fluent-plugin-parser-cri (0.1.1)
       fluentd (>= 1)
     fluent-plugin-prometheus (2.0.3)
@@ -99,26 +105,27 @@ GEM
       tzinfo-data (~> 1.0)
       webrick (>= 1.4.2, < 1.8.0)
       yajl-ruby (~> 1.0)
-    http (4.4.1)
-      addressable (~> 2.3)
+    http (5.1.1)
+      addressable (~> 2.8)
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
-      http-parser (~> 1.2.0)
+      llhttp-ffi (~> 0.4.0)
     http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    http-parser (1.2.3)
-      ffi-compiler (>= 1.0, < 2.0)
     http_parser.rb (0.8.0)
     jmespath (1.6.2)
     jsonpath (1.1.4)
       multi_json
-    kubeclient (4.10.1)
-      http (>= 3.0, < 5.0)
+    kubeclient (4.11.0)
+      http (>= 3.0, < 6.0)
       jsonpath (~> 1.0)
       recursive-open-struct (~> 1.1, >= 1.1.1)
       rest-client (~> 2.0)
+    llhttp-ffi (0.4.0)
+      ffi-compiler (~> 1.0)
+      rake (~> 13.0)
     lru_redux (1.1.0)
     mime-types (3.5.1)
       mime-types-data (~> 3.2015)
@@ -171,7 +178,7 @@ DEPENDENCIES
   fluent-plugin-json-in-json-2 (>= 1.0.2)
   fluent-plugin-kubernetes_metadata_filter (~> 2.9.2)
   fluent-plugin-multi-format-parser (~> 1.0.0)
-  fluent-plugin-opensearch (~> 1.1.4)
+  fluent-plugin-opensearch!
   fluent-plugin-parser-cri (~> 0.1.0)
   fluent-plugin-prometheus (~> 2.0.2)
   fluent-plugin-record-modifier (~> 2.1.0)
