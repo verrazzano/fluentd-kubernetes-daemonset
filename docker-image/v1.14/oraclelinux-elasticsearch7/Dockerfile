@@ -4,7 +4,7 @@
 FROM ghcr.io/oracle/oraclelinux:8-slim as build-base
 
 LABEL maintainer="Verrazzano developers <verrazzano_ww@oracle.com>"
-ENV RUBY_VERSION=3.0.6
+ENV RUBY_VERSION=3.0.7
 ENV PATH /usr/local/ruby/bin:/fluentd/vendor/bundle/ruby/$RUBY_VERSION/bin:$PATH
 ENV GEM_PATH /fluentd/vendor/bundle/ruby/$RUBY_VERSION
 ENV GEM_HOME /fluentd/vendor/bundle/ruby/$RUBY_VERSION
@@ -34,7 +34,7 @@ RUN microdnf -y update \
     && curl -fsSL "https://github.com/rbenv/ruby-build/archive/refs/tags/v20230717.tar.gz" -o /tmp/v20230717.tar.gz \
     && cd /tmp && tar -xzf v20230717.tar.gz \
     && PREFIX=/usr/local /tmp/ruby-build-20230717/install.sh \
-    && ruby-build 3.0.6 /usr/local/ruby \
+    && ruby-build 3.0.7 /usr/local/ruby \
     && gem install oj -N -v 3.10.18 \
     && gem install json -N -v 2.4.1 \
     && gem install async-http -N -v 0.54.0 \
@@ -47,7 +47,7 @@ RUN microdnf -y update \
     && bundle config set --local path '/fluentd/vendor/bundle' \
     && bundle install --gemfile=/fluentd/Gemfile \
     && gem sources --clear-all \
-    && rm -rf /fluentd/vendor/bundle/ruby/3.0.6/cache/* /fluentd/vendor/bundle/ruby/3.0.6/doc/* \
+    && rm -rf /fluentd/vendor/bundle/ruby/3.0.7/cache/* /fluentd/vendor/bundle/ruby/3.0.7/doc/* \
     # for log storage (maybe shared with host)
     && mkdir -p /fluentd/log \
     # configuration/plugins path (default: copied from .)
@@ -80,7 +80,7 @@ RUN microdnf -y update \
 
 RUN dpkgArch="amd64" \
     tiniVersion="v0.18.0" \
-    && curl -fsSL "https://github.com/krallin/tini/releases/download/$tiniVersion/tini-$dpkgArch" -o /usr/local/bin/tini \ 
+    && curl -fsSL "https://github.com/krallin/tini/releases/download/$tiniVersion/tini-$dpkgArch" -o /usr/local/bin/tini \
     && curl -fsSL "https://github.com/krallin/tini/releases/download/$tiniVersion/tini-$dpkgArch.asc" -o /usr/local/bin/tini.asc \
     && export GNUPGHOME="$(mktemp -d)" \
     && gpg --batch --keyserver hkp://keyserver.ubuntu.com --recv-keys 6380DC428747F6C393FEACA59A84159D7001A4E5 \
@@ -95,7 +95,7 @@ COPY --from=build-base /usr/local/ruby/ /usr/local/ruby/
 COPY --from=build-base /license/ /license/
 
 # Environment variables
-ENV RUBY_VERSION=3.0.6
+ENV RUBY_VERSION=3.0.7
 ENV PATH /usr/local/ruby/bin:/fluentd/vendor/bundle/ruby/$RUBY_VERSION/bin:$PATH
 ENV GEM_PATH /fluentd/vendor/bundle/ruby/$RUBY_VERSION
 ENV GEM_HOME /fluentd/vendor/bundle/ruby/$RUBY_VERSION
