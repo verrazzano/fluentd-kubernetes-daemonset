@@ -31,9 +31,9 @@ RUN microdnf -y update \
         libtool \
         bison \
         net-tools \
-    && curl -fsSL "https://github.com/rbenv/ruby-build/archive/refs/tags/v20230717.tar.gz" -o /tmp/v20230717.tar.gz \
+    && curl -fsSL "https://github.com/rbenv/ruby-build/archive/refs/tags/v20240423.tar.gz" -o /tmp/v20240423.tar.gz \
     && cd /tmp && tar -xzf v20230717.tar.gz \
-    && PREFIX=/usr/local /tmp/ruby-build-20230717/install.sh \
+    && PREFIX=/usr/local /tmp/ruby-build-20240423/install.sh \
     && ruby-build 3.0.7 /usr/local/ruby \
     && gem install oj -N -v 3.10.18 \
     && gem install json -N -v 2.4.1 \
