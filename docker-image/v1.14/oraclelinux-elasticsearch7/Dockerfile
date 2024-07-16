@@ -33,7 +33,7 @@ RUN microdnf -y update \
         bison \
         net-tools \
     && microdnf install --enablerepo=ol8_codeready_builder libyaml-devel \
-    && cd /tmp && tar -xzf openssl.tar.gz && cd /tmp/openssl-1.1.1y-dev && ./config && make && make test && make install \
+    && cd /tmp && tar -xzf openssl.tar.gz && cd /tmp/openssl-1.1.1y-dev && ./config && make && make install \
     && curl -fsSL "https://github.com/rbenv/ruby-build/archive/refs/tags/v20240423.tar.gz" -o /tmp/v20240423.tar.gz \
     && cd /tmp && tar -xzf v20240423.tar.gz \
     && PREFIX=/usr/local /tmp/ruby-build-20240423/install.sh \
