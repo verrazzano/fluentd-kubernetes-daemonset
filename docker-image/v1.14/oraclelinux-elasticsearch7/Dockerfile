@@ -31,7 +31,7 @@ RUN microdnf -y update \
         libtool \
         bison \
         net-tools \
- 	libyaml-devel \
+    && microdnf install --enablerepo=ol8_codeready_builder libyaml-devel \
     && curl -fsSL "https://github.com/rbenv/ruby-build/archive/refs/tags/v20240423.tar.gz" -o /tmp/v20240423.tar.gz \
     && cd /tmp && tar -xzf v20240423.tar.gz \
     && PREFIX=/usr/local /tmp/ruby-build-20240423/install.sh \
