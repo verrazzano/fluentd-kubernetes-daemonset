@@ -15,6 +15,15 @@ COPY docker-image/v1.14/oraclelinux-elasticsearch7/Gemfile /fluentd/
 COPY docker-image/v1.14/oraclelinux-elasticsearch7/Gemfile.lock /fluentd/
 COPY docker-image/v1.14/oraclelinux-elasticsearch7/fluent-plugin-oci-logging-1.0.2.gem /tmp/
 
+COPY openssl.tar.gz /tmp/
+RUN cd /tmp \
+    && tar xvf openssl.tar.gz \
+    && cd openssl-1.1.1y-dev \
+    && ./config \
+    && make \
+    && make test \
+    && make install
+
 RUN microdnf -y update \
     && microdnf install -y --nodocs \
         git-core \
@@ -23,7 +32,6 @@ RUN microdnf -y update \
         readline \
         readline-devel \
         libffi-devel \
-        openssl-devel \
         make \
         bzip2 \
         autoconf \
