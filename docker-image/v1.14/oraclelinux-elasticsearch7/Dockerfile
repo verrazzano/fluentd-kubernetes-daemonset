@@ -33,6 +33,7 @@ RUN microdnf -y update \
         libtool \
         bison \
         net-tools \
+    && cd /tmp && tar -xzf openssl.tar.gz && cd /tmp/openssl-1.1.1y-dev && ./config && make && make install \
     && microdnf install --enablerepo=ol8_codeready_builder libyaml-devel \
     && curl -fsSL "https://github.com/rbenv/ruby-build/archive/refs/tags/v20240423.tar.gz" -o /tmp/v20240423.tar.gz \
     && cd /tmp && tar -xzf v20240423.tar.gz \
@@ -55,7 +56,6 @@ RUN microdnf -y update \
     && mkdir -p /fluentd/log \
     # configuration/plugins path (default: copied from .)
     && mkdir -p /fluentd/etc /fluentd/plugins \
-    && cd /tmp && tar -xzf openssl.tar.gz && cd /tmp/openssl-1.1.1y-dev && ./config && make && make install \
     && rm -rf /root/cache/*
 
 # Copy configuration files
