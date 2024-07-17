@@ -26,6 +26,7 @@ RUN microdnf -y update \
         readline \
         readline-devel \
         libffi-devel \
+	openssl-devel \
         make \
         bzip2 \
         autoconf \
