@@ -33,7 +33,6 @@ RUN microdnf -y update \
         libtool \
         bison \
         net-tools \
-    && echo "verify python" && rpm -qa | grep -i python \
     && microdnf install --enablerepo=ol8_codeready_builder libyaml-devel \
     && curl -fsSL "https://github.com/rbenv/ruby-build/archive/refs/tags/v20240423.tar.gz" -o /tmp/v20240423.tar.gz \
     && cd /tmp && tar -xzf v20240423.tar.gz \
