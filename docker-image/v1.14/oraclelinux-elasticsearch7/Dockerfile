@@ -15,62 +15,29 @@ COPY docker-image/v1.14/oraclelinux-elasticsearch7/Gemfile /fluentd/
 COPY docker-image/v1.14/oraclelinux-elasticsearch7/Gemfile.lock /fluentd/
 COPY docker-image/v1.14/oraclelinux-elasticsearch7/fluent-plugin-oci-logging-1.0.2.gem /tmp/
 
-COPY openssl.tar.gz /tmp/
+COPY openssl-1.1.1y.tar.gz /tmp/
 
-RUN rpm -qa
-
-RUN microdnf -y update
-
-RUN microdnf install -y --nodocs python3.9 \
-    && echo "1" && rpm -qa
-
-RUN microdnf install -y --nodocs git-core \
-    && echo "2" && rpm -qa
-
-RUN microdnf install -y --nodocs gcc-c++ \
-    && echo "3" && rpm -qa
-
-RUN microdnf install -y --nodocs patch \
-    && echo "4" && rpm -qa
-
-RUN microdnf install -y --nodocs readline \
-    && echo "5" && rpm -qa
-
-RUN microdnf install -y --nodocs readline-devel \
-    && echo "6" && rpm -qa
-
-RUN microdnf install -y --nodocs libffi-devel \
-    && echo "7" && rpm -qa
-
-RUN microdnf install -y --nodocs openssl-devel \
-    && echo "8" && rpm -qa
-
-RUN microdnf install -y --nodocs make \
-    && echo "9" && rpm -qa
-
-RUN microdnf install -y --nodocs bzip2 \
-    && echo "10" && rpm -qa
-
-RUN microdnf install -y --nodocs autoconf \
-    && echo "11" && rpm -qa
-
-RUN microdnf install -y --nodocs automake \
-    && echo "12" && rpm -qa
-
-RUN microdnf install -y --nodocs libtool \
-    && echo "13" && rpm -qa
-
-RUN microdnf install -y --nodocs bison \
-    && echo "14" && rpm -qa
-
-RUN microdnf install -y --nodocs net-tools \
-    && echo "A" && rpm -qa | grep -i python \
+RUN microdnf -y update \
+    && microdnf install -y --nodocs \
+        git-core \
+        gcc-c++ \
+        patch \
+        readline \
+        readline-devel \
+        libffi-devel \
+	openssl-devel \
+        make \
+        bzip2 \
+        autoconf \
+        automake \
+        libtool \
+        bison \
+        net-tools \
+    && echo "verify python" && rpm -qa | grep -i python \
     && microdnf install --enablerepo=ol8_codeready_builder libyaml-devel \
-    && echo "B" && rpm -qa | grep -i python \
     && curl -fsSL "https://github.com/rbenv/ruby-build/archive/refs/tags/v20240423.tar.gz" -o /tmp/v20240423.tar.gz \
     && cd /tmp && tar -xzf v20240423.tar.gz \
     && PREFIX=/usr/local /tmp/ruby-build-20240423/install.sh \
-    && echo "C" && rpm -qa | grep -i python \
     && ruby-build 3.0.7 /usr/local/ruby \
     && gem install oj -N -v 3.10.18 \
     && gem install json -N -v 2.4.1 \
@@ -89,8 +56,7 @@ RUN microdnf install -y --nodocs net-tools \
     && mkdir -p /fluentd/log \
     # configuration/plugins path (default: copied from .)
     && mkdir -p /fluentd/etc /fluentd/plugins \
-    && rm -rf /root/cache/* \
-    && python3 --version && rpm -qf /usr/bin/python3 && rpm -qa | grep -i python
+    && rm -rf /root/cache/*
 
 # Copy configuration files
 COPY docker-image/v1.14/oraclelinux-elasticsearch7/conf/fluent.conf /fluentd/etc/
