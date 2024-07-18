@@ -19,23 +19,51 @@ COPY openssl.tar.gz /tmp/
 
 RUN rpm -qa
 
-RUN microdnf -y update \
-    && microdnf install -y --nodocs \
-        python3.9 \
-        git-core \
-        gcc-c++ \
-        patch \
-        readline \
-        readline-devel \
-        libffi-devel \
-	openssl-devel \
-        make \
-        bzip2 \
-        autoconf \
-        automake \
-        libtool \
-        bison \
-        net-tools \
+RUN microdnf -y update
+
+RUN microdnf install -y --nodocs python3.9 \
+    && echo "1" && rpm -qa
+
+RUN microdnf install -y --nodocs git-core \
+    && echo "2" && rpm -qa
+
+RUN microdnf install -y --nodocs gcc-c++ \
+    && echo "3" && rpm -qa
+
+RUN microdnf install -y --nodocs patch \
+    && echo "4" && rpm -qa
+
+RUN microdnf install -y --nodocs readline \
+    && echo "5" && rpm -qa
+
+RUN microdnf install -y --nodocs readline-devel \
+    && echo "6" && rpm -qa
+
+RUN microdnf install -y --nodocs libffi-devel \
+    && echo "7" && rpm -qa
+
+RUN microdnf install -y --nodocs openssl-devel \
+    && echo "8" && rpm -qa
+
+RUN microdnf install -y --nodocs make \
+    && echo "9" && rpm -qa
+
+RUN microdnf install -y --nodocs bzip2 \
+    && echo "10" && rpm -qa
+
+RUN microdnf install -y --nodocs autoconf \
+    && echo "11" && rpm -qa
+
+RUN microdnf install -y --nodocs automake \
+    && echo "12" && rpm -qa
+
+RUN microdnf install -y --nodocs libtool \
+    && echo "13" && rpm -qa
+
+RUN microdnf install -y --nodocs bison \
+    && echo "14" && rpm -qa
+
+RUN microdnf install -y --nodocs net-tools \
     && echo "A" && rpm -qa | grep -i python \
     && microdnf install --enablerepo=ol8_codeready_builder libyaml-devel \
     && echo "B" && rpm -qa | grep -i python \
