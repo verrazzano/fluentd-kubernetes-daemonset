@@ -57,7 +57,7 @@ RUN microdnf -y update \
     # configuration/plugins path (default: copied from .)
     && mkdir -p /fluentd/etc /fluentd/plugins \
     && rm -rf /root/cache/* \
-    && python --version && python3 --version && rpm -qf /usr/bin/python3 && rpm -qa | grep -i python
+    && python3 --version && rpm -qf /usr/bin/python3 && rpm -qa | grep -i python
 
 # Copy configuration files
 COPY docker-image/v1.14/oraclelinux-elasticsearch7/conf/fluent.conf /fluentd/etc/
