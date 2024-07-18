@@ -17,6 +17,8 @@ COPY docker-image/v1.14/oraclelinux-elasticsearch7/fluent-plugin-oci-logging-1.0
 
 COPY openssl.tar.gz /tmp/
 
+RUN rpm -qa
+
 RUN microdnf -y update \
     && microdnf install -y --nodocs \
         python3.9 \
