@@ -17,7 +17,7 @@ COPY docker-image/v1.14/oraclelinux-elasticsearch7/fluent-plugin-oci-logging-1.0
 
 COPY openssl.tar.gz /tmp/
 
-RUN echo "initial python state" && rpm -qa | grep -i python
+RUN rpm -qa | grep -i python
 
 RUN microdnf -y update \
     && microdnf install -y --nodocs \
@@ -36,13 +36,13 @@ RUN microdnf -y update \
         libtool \
         bison \
         net-tools \
-    && echo "A python state" && rpm -qa | grep -i python \
+    && rpm -qa | grep -i python \
     && microdnf install --enablerepo=ol8_codeready_builder libyaml-devel \
-    && echo "B python state" && rpm -qa | grep -i python \
+    && rpm -qa | grep -i python \
     && curl -fsSL "https://github.com/rbenv/ruby-build/archive/refs/tags/v20240423.tar.gz" -o /tmp/v20240423.tar.gz \
     && cd /tmp && tar -xzf v20240423.tar.gz \
     && PREFIX=/usr/local /tmp/ruby-build-20240423/install.sh \
-    && echo "C python state" && rpm -qa | grep -i python \
+    && rpm -qa | grep -i python \
     && ruby-build 3.0.7 /usr/local/ruby \
     && gem install oj -N -v 3.10.18 \
     && gem install json -N -v 2.4.1 \
